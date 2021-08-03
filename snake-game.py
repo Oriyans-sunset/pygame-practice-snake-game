@@ -115,8 +115,10 @@ class MAIN:
         self.check_fail()
         
     def draw_elements(self):
+        self.draw_grass()
         self.snake.draw_snake()
         self.fruit.draw_fruit()
+        
         
     def check_collision(self):
         if self.fruit.pos == self.snake.body[0]:
@@ -135,7 +137,22 @@ class MAIN:
     def game_over(self):
         pygame.quit()
         sys.exit()
-
+        
+    def draw_grass(self):
+        grass_color = (215,227,215)
+        screen.fill((155,205,155))
+        for row in range(cell_number):
+            if row%2 == 0:
+                for column in range(cell_number):
+                    if column%2 == 1:
+                        grass_rect = pygame.Rect(column * cell_size+1, row*cell_size+1, cell_size, cell_size)
+                        pygame.draw.rect(screen, grass_color, grass_rect)
+            else:
+                for column in range(cell_number):
+                    if column%2 == 0:
+                        grass_rect = pygame.Rect(column * cell_size+1, row*cell_size+1, cell_size, cell_size)
+                        pygame.draw.rect(screen, grass_color, grass_rect)                
+        
 pygame.init()
 cell_size = 30
 cell_number = 20
@@ -144,6 +161,8 @@ clock = pygame.time.Clock()
 
 apple_surface = pygame.image.load('/Users/priyanshurastogi/Downloads/pygame-practice-snake-game/Snake-assests/Graphics/apple.png').convert_alpha()
 apple_surface = pygame.transform.scale(apple_surface, (40, 40))
+
+game_font = pygame.font.Font('/Users/priyanshurastogi/Downloads/pygame-practice-snake-game/Snake-assests/Font/PoetsenOne-Regular.ttf', 25, )
 
 main_game = MAIN()
 
@@ -175,9 +194,9 @@ while True:
                     main_game.snake.direction = Vector2(1,0)        
     
     
-    screen.fill('white')
     
-    main_game.draw_elements()  
+    
+    main_game.draw_elements() 
     main_game.check_collision()
     
     pygame.display.update()
