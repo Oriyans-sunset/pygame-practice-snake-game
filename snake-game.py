@@ -115,15 +115,20 @@ class MAIN:
         self.check_fail()
         
     def draw_elements(self):
+        global score
         self.draw_grass()
         self.snake.draw_snake()
         self.fruit.draw_fruit()
-        
+        text_surface = game_font.render('Score: '+str(score), None, 'black', None)
+        screen.blit(text_surface, (cell_size, cell_size))
         
     def check_collision(self):
         if self.fruit.pos == self.snake.body[0]:
             self.fruit.randomise()
             self.snake.add_block()
+            eating_music.play()
+            global score
+            score += 1
     
     def check_fail(self):
         if self.snake.body[0].x >= cell_number or self.snake.body[0].x < 0:
@@ -156,13 +161,16 @@ class MAIN:
 pygame.init()
 cell_size = 30
 cell_number = 20
+score = 0
 screen = pygame.display.set_mode((cell_size*cell_number, cell_size*cell_number))
 clock = pygame.time.Clock()
 
 apple_surface = pygame.image.load('/Users/priyanshurastogi/Downloads/pygame-practice-snake-game/Snake-assests/Graphics/apple.png').convert_alpha()
 apple_surface = pygame.transform.scale(apple_surface, (40, 40))
 
-game_font = pygame.font.Font('/Users/priyanshurastogi/Downloads/pygame-practice-snake-game/Snake-assests/Font/PoetsenOne-Regular.ttf', 25, )
+game_font = pygame.font.Font('/Users/priyanshurastogi/Downloads/pygame-practice-snake-game/Snake-assests/Font/PoetsenOne-Regular.ttf', 25)
+
+eating_music = pygame.mixer.Sound('/Users/priyanshurastogi/Downloads/pygame-practice-snake-game/Snake-assests/Sound/crunch.wav')
 
 main_game = MAIN()
 
@@ -192,9 +200,6 @@ while True:
             if e.key == pygame.K_RIGHT:
                 if main_game.snake.direction.x != -1:
                     main_game.snake.direction = Vector2(1,0)        
-    
-    
-    
     
     main_game.draw_elements() 
     main_game.check_collision()
