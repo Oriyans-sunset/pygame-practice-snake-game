@@ -205,4 +205,4 @@ while True:
     main_game.check_collision()
     
     pygame.display.update()
-    clock.tick(60)
+    clock.tick(50)
